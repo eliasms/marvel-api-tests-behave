@@ -1,7 +1,6 @@
 # Test Marvel API with Behave
 
-## Create the virtual environment with [venv]
-(https://docs.python.org/3/library/venv.html):
+## Create the virtual environment with [venv](https://docs.python.org/3/library/venv.html):
 
     python -m venv venv
 
@@ -17,8 +16,7 @@
 
 [Marvel Developer Site](https://developer.marvel.com/account)
 
-## Set environment variables with [python-dotenv CLI]
-(https://pypi.org/project/python-dotenv/):
+## Set environment variables with [python-dotenv CLI](https://pypi.org/project/python-dotenv/):
 
     dotenv set API_URL https://gateway.marvel.com:443
 
