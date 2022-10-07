@@ -4,6 +4,7 @@ Feature: GET Stories
         Given I set Marvel API url
         And I have authorization keys to authenticate myself
     
+    @positive
     Scenario: Get and list five stories on Marvel API
         Given I Set GET posts api endpoint "/v1/public/stories"
         And I Set param request with "limit" 5

@@ -4,6 +4,7 @@ Feature: GET Characters
         Given I set Marvel API url
         And I have authorization keys to authenticate myself
 
+    @positive
     Scenario Outline: Get and list chracters by characterid on Marvel API
         Given I Set GET posts api endpoint "/v1/public/characters/"
         And I set the characterId <characterId> in Path
@@ -18,6 +19,7 @@ Feature: GET Characters
             | 1011297     | Agent Brand     |
             | 1011456     | Balder          |
 
+    @negative
     Scenario: Get a nonexistent character by characterid on Marvel API
         Given I Set GET posts api endpoint "/v1/public/characters/"
         And I set the characterId 9000 in Path

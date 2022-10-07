@@ -1,22 +1,24 @@
 # Test Marvel API with Behave
+Using [Behave](https://behave.readthedocs.io/) to implement tests in the [Marvel API](https://developer.marvel.com/docs) with success and exception cases.
 
-## Create the virtual environment with [venv](https://docs.python.org/3/library/venv.html):
+### Create the virtual environment with [venv](https://docs.python.org/3/library/venv.html):
 
     python -m venv venv
 
-## Start the virtual environment in venv:
+### Start the virtual environment in venv:
 
-    .\venv\Scripts\Activate.ps1
+    .\venv\Scripts\Activate.ps1 # Windows
+    source venv/bin/activate    # Linux
 
-## Install project dependencies
+### Install project dependencies
 
     pip install -r requirements.txt
 
-## Get Authorization Credentials in the Marvel API
+### Get Authorization Credentials in the Marvel API
 
 [Marvel Developer Site](https://developer.marvel.com/account)
 
-## Set environment variables with [python-dotenv CLI](https://pypi.org/project/python-dotenv/):
+### Set environment variables with [python-dotenv CLI](https://pypi.org/project/python-dotenv/):
 
     dotenv set API_URL https://gateway.marvel.com:443
 
@@ -31,8 +33,32 @@
 
 It is also possible to see their creation in the generated `.env` file
 
-## Run test scenarios
+### Run test scenarios
 
     behave -f pretty
+    behave --tags="@positive" features/ # Positive Scenarios
+    behave --tags="@positive" features/ # Negative Scenarios
 
-#### Reports are generated in the folder .\reports in JUnit XML-like output format
+### Project structure
+
+```
+features
+features/*.feature
+
+features/steps
+features/steps/*./steps.py
+
+behave.ini
+
+reports
+```
+
+### What's in each file?
+
+| File | What is |
+| ------- | ----------------- |
+| *.feature | Gherking file containing execution rules|
+| behave.ini | Project config |
+| environment.py | Project hooks |
+| /steps/*.py | Files with steps implementation |
+| reports | Reports foldel generated after execution |
