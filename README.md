@@ -50,7 +50,7 @@ behave.ini
 
 ### What's in each file?
 
-| File | Which is |
+| File | What is |
 | ------- | ----------------- |
 | *.feature | Gherking file containing execution rules|
 | behave.ini | Project config |
