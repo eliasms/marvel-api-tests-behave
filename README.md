@@ -34,3 +34,5 @@ It is also possible to see their creation in the generated `.env` file
 ## Run test scenarios
 
     behave -f pretty
+
+### Reports are generated in the folder .\reports in JUnit XML-like output format
