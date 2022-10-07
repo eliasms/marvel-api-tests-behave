@@ -61,4 +61,4 @@ reports
 | behave.ini | Project config |
 | environment.py | Project hooks |
 | /steps/*.py | Files with steps implementation |
-| reports | Reports foldel generated after execution |
+| reports | Reports folder generated after execution |
