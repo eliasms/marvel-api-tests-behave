@@ -1,4 +1,5 @@
 # Test Marvel API with Behave
+Using [Behave](https://behave.readthedocs.io/) to implement tests in the [Marvel API](https://developer.marvel.com/docs) with success and exception cases.
 
 ### Create the virtual environment with [venv](https://docs.python.org/3/library/venv.html):
 
@@ -35,6 +36,8 @@ It is also possible to see their creation in the generated `.env` file
 ### Run test scenarios
 
     behave -f pretty
+    behave --tags="@positive" features/ # Positive Scenarios
+    behave --tags="@positive" features/ # Negative Scenarios
 
 ### Project structure
 
@@ -46,6 +49,8 @@ features/steps
 features/steps/*./steps.py
 
 behave.ini
+
+reports
 ```
 
 ### What's in each file?
@@ -56,3 +61,4 @@ behave.ini
 | behave.ini | Project config |
 | environment.py | Project hooks |
 | /steps/*.py | Files with steps implementation |
+| reports | Reports foldel generated after execution |
