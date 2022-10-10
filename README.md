@@ -37,7 +37,7 @@ It is also possible to see their creation in the generated `.env` file
 
     behave -f pretty
     behave --tags="@positive" features/ # Positive Scenarios
-    behave --tags="@positive" features/ # Negative Scenarios
+    behave --tags="@negative" features/ # Negative Scenarios
 
 ### Project structure
 
