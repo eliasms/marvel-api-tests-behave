@@ -1,7 +1,5 @@
-import os
-import hashlib
+from features.steps.utils import *
 import requests
-from datetime import datetime
 import json
 from behave import given, when, then
 from dotenv import load_dotenv
@@ -20,21 +18,19 @@ path_value = None
 @given(u'I set Marvel API url')
 def set_api_url(context):
     global api_url
-    api_url = os.environ["API_URL"]
+    api_url = get_var_from_environment("API_URL")
 
 @given(u'I have authorization keys to authenticate myself')
 def set_authorization_keys(context):
     global ts  
-    ts = datetime.now().strftime("%d-%m-%Y-%H:%M:%S")
+    ts = get_timestamp()
 
     global public_key
-    public_key = os.environ["PUBLIC_KEY"]
-    private_key = os.environ["PRIVATE_KEY"]
-
-    pre_hash = ts+private_key+public_key
+    public_key = get_var_from_environment("PUBLIC_KEY")
+    private_key = get_var_from_environment("PRIVATE_KEY")
 
     global hash
-    hash = hashlib.md5(pre_hash.encode('utf-8')).hexdigest()
+    hash = make_a_hash(ts,private_key,public_key)
 
 @given(u'I Set GET posts api endpoint "{endpoint}"')
 def set_api_endpoint(context, endpoint):
