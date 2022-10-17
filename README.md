@@ -33,6 +33,14 @@ Using [Behave](https://behave.readthedocs.io/) to implement tests in the [Marvel
 
 It is also possible to see their creation in the generated `.env` file
 
+### Test Cases
+**Feature:** GET Characters
+**Scenario:** Get and list chracters by characterid on Marvel API (Using Scenario Outlines to pass three data sets).
+**Scenario:** Get a nonexistent character by characterid on Marvel API (negative scenario to catch exception).
+
+**Feature:** GET Stories
+**Scenario:** Get and list five stories on Marvel API.
+
 ### Run test scenarios
 
     behave -f pretty
