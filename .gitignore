@@ -2,3 +2,4 @@ venv/
 .env
 .vscode
 reports/
+features/steps/__pycache__/
