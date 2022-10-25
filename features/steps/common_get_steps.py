@@ -5,81 +5,62 @@ from behave import given, when, then
 from dotenv import load_dotenv
 load_dotenv()
 
-api_url = None
-api_endpoints = {}
-public_key = {}
-ts = {}
-hash = {}
-request_params = {}
-response_codes = {}
-response_texts = {}
-path_value = None
-
 @given(u'I set Marvel API url')
 def set_api_url(context):
-    global api_url
-    api_url = get_var_from_environment("API_URL")
+    context.api_url = get_var_from_environment("API_URL")
 
 @given(u'I have authorization keys to authenticate myself')
 def set_authorization_keys(context):
-    global ts  
-    ts = get_timestamp()
-
-    global public_key
-    public_key = get_var_from_environment("PUBLIC_KEY")
+    context.ts = get_timestamp()
+    context.public_key = get_var_from_environment("PUBLIC_KEY")
     private_key = get_var_from_environment("PRIVATE_KEY")
-
-    global hash
-    hash = make_a_hash(ts,private_key,public_key)
+    context.hash = make_a_hash(context.ts,private_key,context.public_key)
 
 @given(u'I Set GET posts api endpoint "{endpoint}"')
 def set_api_endpoint(context, endpoint):
-    global request_endpoint
-    request_endpoint = endpoint
+    context.request_endpoint = endpoint
 
 @given(u'I set the characterId {value} in Path')
 def set_value_in_path(context, value):
-    global path_value
-    path_value = value
-    print ( api_url + request_endpoint + path_value )
+    context.path_value = value
+    print ( context.api_url + context.request_endpoint + value )
 
 @given(u'I Set param request with "{parameter}" {value}')
 def set_parameter_with_query_params(context, parameter, value):
-    request_params['GET'] = {
-        "apikey": public_key,
-        "ts": ts,
-        "hash": hash,
+    context.request_params = {
+        "apikey": context.public_key,
+        "ts": context.ts,
+        "hash": context.hash,
         parameter: value
     }
-    pre_endpoint = api_url + request_endpoint
-    api_endpoints['GET_URL'] = pre_endpoint
+    pre_endpoint = context.api_url + context.request_endpoint
+    context.api_endpoints = pre_endpoint
 
 @given(u'I Set param request')
 def set_parameter_request(context):
-    request_params['GET'] = {
-        "apikey": public_key,
-        "ts": ts,
-        "hash": hash
+    context.request_params = {
+        "apikey": context.public_key,
+        "ts": context.ts,
+        "hash": context.hash
     }
-    pre_endpoint = api_url + request_endpoint + path_value
-    api_endpoints['GET_URL'] = pre_endpoint
+    pre_endpoint = context.api_url + context.request_endpoint + context.path_value
+    context.api_endpoints = pre_endpoint
 
 @when(u'Send GET HTTP request')
 def step_impl(context):
-    print('    ',api_endpoints['GET_URL'])
-    response = requests.get(url=api_endpoints['GET_URL'], params=request_params['GET'])
-    response_texts['GET'] = response.text
-
+    print('    ',context.api_endpoints)
+    response = requests.get(url=context.api_endpoints, params=context.request_params)
+    context.response_texts = response.text
     statuscode = response.status_code
-    response_codes['GET'] = statuscode
+    context.response_codes = statuscode
 
 @then(u'I receive valid HTTP response code {http_code:d}')
 def receive_http_code(context, http_code):
-    assert response_codes['GET'] == http_code
+    assert context.response_codes == http_code
 
 @then(u'I get {title_expected:d} titles returned from the request')
 def step_impl(context, title_expected):
-    data = json.loads(response_texts['GET'])
+    data = json.loads(context.response_texts)
     results = data["data"]["results"]
     assert len(results) == title_expected
 
@@ -89,11 +70,11 @@ def step_impl(context, title_expected):
 
 @then(u'I receive character {name} returned from the request')
 def step_impl(context, name):
-    data = json.loads(response_texts['GET'])
+    data = json.loads(context.response_texts)
     results = data["data"]["results"]
     assert name == results[0]["name"]
 
 @then(u'I receive the message error "{message_error}"')
 def step_impl(context, message_error):
-    data = json.loads(response_texts['GET'])
+    data = json.loads(context.response_texts)
     assert message_error == data["status"]
