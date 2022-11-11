@@ -1,4 +1,6 @@
 Feature: GET Stories
+    As a Marvel API consumer,
+    I want to get stories.
 
     Background:
         Given I set Marvel API url

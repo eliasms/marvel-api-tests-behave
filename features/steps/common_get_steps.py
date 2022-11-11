@@ -1,9 +1,12 @@
-from features.steps.utils import *
-import requests
 import json
 from behave import given, when, then
 from dotenv import load_dotenv
+from assertpy import assert_that
+from features.steps.utils.envinronment import *
+from utils.request import APIRequest
+
 load_dotenv()
+
 
 @given(u'I set Marvel API url')
 def set_api_url(context):
@@ -48,21 +51,21 @@ def set_parameter_request(context):
 
 @when(u'Send GET HTTP request')
 def step_impl(context):
-    print('    ',context.api_endpoints)
-    response = requests.get(url=context.api_endpoints, params=context.request_params)
+    request = APIRequest()
+    response = request.get(url=context.api_endpoints, params=context.request_params)
     context.response_texts = response.text
     statuscode = response.status_code
     context.response_codes = statuscode
 
 @then(u'I receive valid HTTP response code {http_code:d}')
 def receive_http_code(context, http_code):
-    assert context.response_codes == http_code
+    assert_that(context.response_codes).is_equal_to(http_code)
 
 @then(u'I get {title_expected:d} titles returned from the request')
 def step_impl(context, title_expected):
     data = json.loads(context.response_texts)
     results = data["data"]["results"]
-    assert len(results) == title_expected
+    assert_that(len(results)).is_equal_to(title_expected)
 
     for i in results:
         title = i["title"]
@@ -71,10 +74,10 @@ def step_impl(context, title_expected):
 @then(u'I receive character {name} returned from the request')
 def step_impl(context, name):
     data = json.loads(context.response_texts)
-    results = data["data"]["results"]
-    assert name == results[0]["name"]
+    response_name = data["data"]["results"][0]["name"]
+    assert_that(response_name).is_not_empty().is_equal_to(name)
 
 @then(u'I receive the message error "{message_error}"')
 def step_impl(context, message_error):
     data = json.loads(context.response_texts)
-    assert message_error == data["status"]
+    assert_that(data["status"]).is_not_empty().is_equal_to(message_error)

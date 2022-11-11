@@ -1,4 +1,7 @@
 Feature: GET Characters
+    As a Marvel API consumer,
+    I want to get characters,
+    And check the behavior when I request a non-existent user.
 
     Background:
         Given I set Marvel API url
